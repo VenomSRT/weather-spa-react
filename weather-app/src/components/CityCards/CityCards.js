@@ -2,14 +2,14 @@ import React from 'react';
 import { CityCard } from './CityCard/CityCard';
 import './CityCards.scss';
 
-export const CityCards = ({ cities, setCurrentCity, setToDelete }) => (
+export const CityCards = ({ cities, setCurrentCity, deleteCity }) => (
   <div className="cards">
-    {cities.length && cities.map(city => {
-      console.log(city);
+    {cities.length > 0 && cities.map(city => {
+      console.log(cities);
       return (<div key={city.id}>
         <CityCard
           cityData={city}
-          setToDelete={setToDelete}
+          deleteCity={deleteCity}
           setCurrentCity={setCurrentCity}
         />
       </div>)
