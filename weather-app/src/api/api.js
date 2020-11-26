@@ -11,7 +11,7 @@ export const getWeatherData = (cityId) => {
 }
 
 export const getGroupWeatherData = (citiesId) => {
-  return fetch(`${BASE_GROUP_URL}?q=${citiesId}&units=${units}&lang=${lang}&appid=${appId}`)
+  return fetch(`${BASE_GROUP_URL}?id=${citiesId}&units=${units}&lang=${lang}&appid=${appId}`)
     .then(response => response.json());
 }
 

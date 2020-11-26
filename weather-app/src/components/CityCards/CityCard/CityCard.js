@@ -24,7 +24,7 @@ export const CityCard = ({ cityData, deleteCity, setCurrentCity, renewData }) =>
     <p>Температура (ощущается): {cityData.main.feels_like.toFixed(1)}</p>
     <p>Влажность: {cityData.main.humidity}</p>
     <button
-      onClick={renewData}
+      onClick={() => renewData(cityData.id)}
     >
       Обновить
     </button>
