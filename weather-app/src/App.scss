@@ -1,3 +1,45 @@
-.App {
+.header {
+  display: flex;
+  width: 100%;
+  justify-content: center;
 
+  &__link {
+    padding: 5px 10px;
+    background-color: #405cfc;
+    border: 2px solid #405cfc;
+    border-radius: 5px;
+    color: white;
+    font-weight: 900;
+    text-transform: uppercase;
+    transition: background-color 0.5s, color 0.5s;
+
+    &:hover {
+      color: #405cfc;
+      background-color: white;
+    }
+  }
+
+  &__search-input {
+    height: 100%;
+    width: 400px;
+    margin: 0 15px;
+    padding: 0 10px;
+    border-radius: 5px;
+    border: 2px solid #405cfc;
+    font-size: 18px;
+
+    &:focus {
+      outline: none;
+    }
+  }
+
+  &__button {
+    @extend .header__link;
+    margin: 0 5px;
+    cursor: pointer;
+
+    &:focus {
+      outline: none;
+    }
+  }
 }

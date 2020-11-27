@@ -7,69 +7,86 @@ import './App.scss';
 
 function App() {
   const [currentCity, setCurrentCity] = useState('');
-  const [currentCityForecast, setCurrentCityForescast] = useState({})
+  const [currentCityForecast, setCurrentCityForescast] = useState(null)
   const [cities, setCities] = useState([]);
 
   useEffect(() => {
     const storageCities = JSON.parse(localStorage.getItem('cities'));
-    
+
     if (storageCities && storageCities.length) {
       getGroupWeatherData(storageCities.map(city => city.id).join(','))
         .then(data => {
           setCities(data.list);
-        })
+          writeToStorage(data.list);
+        }) 
     }
   }, [])
 
   useEffect(() => {
+    console.log(currentCity);
     if(currentCity) {
-      if (localStorage.key(currentCity.name)) {
-        setCurrentCityForescast(localStorage.key(currentCity.name));
-      } else {
-        getHourlyData(currentCity.coord.lon, currentCity.coord.lat)
-          .then(data => {
-            console.log('fetch');
-            data.name = currentCity.name;
-            localStorage.setItem(currentCity.name, data);
-            setCurrentCityForescast(data);
-          })
-          .catch(err => {console.log(err)});
-      }
+      getHourlyData(currentCity.coord.lon, currentCity.coord.lat)
+        .then(data => {
+          data.name = currentCity.name;
+          setCurrentCityForescast(data);
+        })
+        .catch(err => {console.log(err)});
     }
   }, [currentCity])
 
+  function writeToStorage(cities) {
+    localStorage.setItem(
+      'cities',
+      JSON.stringify(cities)
+    )
+  }
+
   function inputHandler() {
-    const inputValue = document.querySelector('#search').value.trim();
-    
-    getWeatherData(inputValue)
-      .then(data => {
-        if (!cities.some(city => city.id === data.id)) {
-          setCities([...cities, data]);
-          localStorage.setItem(
-            'cities',
-            JSON.stringify([...cities, data])
-          )
-        }
-      }).catch(err => {
-        alert('Something went wrong (look details in console)');
-          console.log(err);
-      });
+    let inputField = document.querySelector('#search');
+    const inputValue = inputField.value.trim();
+
+    if (cities.every(city => city.name !== inputValue)) {
+      getWeatherData(inputValue)
+        .then(data => {
+          if (data.cod === 200 && (!cities.length || cities.every(city => city.id !== data.id))) {
+            setCities([...cities, data]);
+            writeToStorage([...cities, data]);
+          } else {
+            console.log(cities);
+            alert('Wrong input');
+          }
+        })
+
+      inputField.value = '';
+    }
   }
 
   function deleteCity(cityId) {
     setCities(cities.filter(city => city.id !== cityId));
-    localStorage.setItem(
-      'cities',
-      JSON.stringify(cities.filter(city => city.id !== cityId))
-    )
+    writeToStorage(cities.filter(city => city.id !== cityId));
   }
 
   function renewData(cityId) {
-
+    console.log('renew');
+    getGroupWeatherData(cityId)
+      .then(data => {
+        console.log(data.list);
+        cities.forEach((city, index) => {
+          console.log(city.id, data.list[0].id);
+          if (city.id === data.list[0].id) {
+            const newCities = [...cities];
+            newCities.splice(index, 1, data.list[0])
+            console.log(newCities);
+            setCities(newCities)
+            writeToStorage(newCities);
+          }
+        })
+      })
+      .catch(err => console.log(err))
   }
 
   return (
-    <>
+    <div className="main-container">
       <header className="header">
         <Link to="/">
           <div className="header__link">
@@ -83,11 +100,18 @@ function App() {
             className="header__search-input"
           />
           <button
-            className="header__search-button"
+            className="header__button"
             onClick={inputHandler}
           >
             Add
           </button>
+          <button
+            className="header__button"
+            onClick={() => {
+              localStorage.clear();
+              setCities([]);
+            }}
+          >Clear All</button>
         </div>
       </header>
 
@@ -96,7 +120,9 @@ function App() {
           <Route exact path="/">
             <CityCards
               cities={cities}
-              setCurrentCity={setCurrentCity} deleteCity={deleteCity}
+              setCurrentCity={setCurrentCity}
+              deleteCity={deleteCity}
+              renewData={renewData}
             />
           </Route>
           
@@ -105,7 +131,7 @@ function App() {
           </Route>
         </Switch>
       </main>
-    </>
+    </div>
   );
 }
 

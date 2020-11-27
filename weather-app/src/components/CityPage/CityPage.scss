@@ -1,0 +1,53 @@
+.city {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding-top: 30px;
+
+  &__title {
+
+  }
+
+  &__weather-container {
+    display: flex;
+    height: 300px;
+    border: 1px solid #405cfc;
+  }
+
+  &__hour-block {
+    display: flex;
+    align-items: flex-end;
+    flex-wrap: wrap;
+    height: 100%;
+    width: 50px;
+  }
+
+  &__temp-outer-container {
+    width: 100%;
+    height: 100%;
+  }
+
+  &__temp-inner-container {
+    position: relative;
+    width: 100%;
+    height: calc(50% + 30px);
+  }
+
+  &__temp {
+    display: flex;
+    position: absolute;
+    align-items: center;
+    justify-content: center;
+    height: 30px;
+    width: 100%;
+    font-size: 18px;
+    font-weight: 700;
+  }
+
+  &__hour-title {
+    margin-top: 10px;
+    width: 100%;
+    text-align: center;
+    font-weight: 700;
+  }
+}
