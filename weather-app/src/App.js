@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Switch, Route, Link } from "react-router-dom";
+import { Switch, Route, Link, Redirect } from "react-router-dom";
 import { CityCards } from "./components/CityCards/CityCards";
 import { CityPage } from "./components/CityPage/CityPage";
 import { getWeatherData, getGroupWeatherData, getHourlyData } from "./api/api";
@@ -93,25 +93,30 @@ function App() {
             Home
           </div>
         </Link>
+
         <div className="header__search-container">
           <input
             type="text"
             id="search"
             className="header__search-input"
           />
+
           <button
             className="header__button"
             onClick={inputHandler}
           >
             Add
           </button>
+
           <button
             className="header__button"
             onClick={() => {
               localStorage.clear();
               setCities([]);
             }}
-          >Clear All</button>
+          >
+            Clear All
+          </button>
         </div>
       </header>
 
@@ -129,6 +134,8 @@ function App() {
           <Route path="/:cityName">
             <CityPage currentCityForecast={currentCityForecast} />
           </Route>
+
+          <Redirect to="/" />
         </Switch>
       </main>
     </div>

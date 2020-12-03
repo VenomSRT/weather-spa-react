@@ -1,8 +1,13 @@
 import React from 'react';
+import { useHistory } from 'react-router-dom';
 import './CityPage.scss';
 
 export const CityPage = ({ currentCityForecast }) => {
-  console.log(currentCityForecast);
+  let history = useHistory();
+
+  if(!currentCityForecast) {
+    history.push('/');
+  }
 
   return(
     currentCityForecast && (
@@ -10,7 +15,7 @@ export const CityPage = ({ currentCityForecast }) => {
         <h2 className="city__title">{currentCityForecast.name}</h2>
         <div className="city__weather-container">
           {currentCityForecast.hourly
-            .filter((data, index) => index < 25 && index > 0 && !(index % 2))
+            .filter((__, index) => index < 25 && index > 0 && !(index % 2))
             .map(data => (
               <div
                 key={`${data.dt}`}

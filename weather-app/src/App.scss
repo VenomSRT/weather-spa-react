@@ -2,8 +2,10 @@
   display: flex;
   width: 100%;
   justify-content: center;
+  font-family: Arial, Helvetica, sans-serif;
 
   &__link {
+    font-family: inherit;
     padding: 5px 10px;
     background-color: #405cfc;
     border: 2px solid #405cfc;

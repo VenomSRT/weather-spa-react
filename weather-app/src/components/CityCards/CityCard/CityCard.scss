@@ -1,4 +1,15 @@
+@mixin crossBar {
+  content: "";
+  position: absolute;
+  top: 9px;
+  left: 2px;
+  height: 2px;
+  width: 15px;
+  background-color: #000;
+}
+
 .card {
+  font-family: Arial, Helvetica, sans-serif;
   position: relative;
   display: flex;
   flex-direction: column;
@@ -20,24 +31,12 @@
     cursor: pointer;
 
     &::before {
-      content: "";
-      position: absolute;
-      top: 8px;
-      left: 2px;
-      height: 2px;
-      width: 15px;
-      background-color: #000;
+      @include crossBar;
       transform: rotate(45deg);
     }
 
     &::after {
-      content: "";
-      position: absolute;
-      top: 8px;
-      left: 2px;
-      height: 2px;
-      width: 15px;
-      background-color: #000;
+      @include crossBar;
       transform: rotate(135deg);
     }
   }
@@ -50,6 +49,10 @@
     color: #000;
   }
 
+  &__link {
+    text-decoration: none;
+  }
+
   &__image-container {
     text-align: center;
   }
@@ -57,7 +60,11 @@
   &__data-row {
     display: flex;
     justify-content: space-between;
-    padding: 5px 10px;
+    padding: 0 10px;
+
+    &--date {
+      font-size: 14px;
+    }
   }
 
   &__wind-data {
@@ -103,3 +110,5 @@
     }
   }
 }
+
+

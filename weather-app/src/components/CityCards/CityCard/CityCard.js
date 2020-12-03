@@ -15,8 +15,9 @@ export const CityCard = ({ cityData, deleteCity, setCurrentCity, renewData }) =>
         setCurrentCity({
           name: cityData.name,
           coord: cityData.coord
-        });
+        })
       }}
+      className="card__link"
     >
       <h3 className="card__title">
         {cityData.name}
@@ -59,7 +60,7 @@ export const CityCard = ({ cityData, deleteCity, setCurrentCity, renewData }) =>
         ></div>
       </div>
     </p>
-    <p className="card__data-row">
+    <p className="card__data-row card__data-row--date">
       Date of last data update: {new Date(cityData.dt * 1000).toString().split('GMT')[0]}
     </p>
     <button
